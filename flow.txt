@@ -1,0 +1,15 @@
+start
+
+user clicks start
+take the user id and save to database
+require keywords for jobs form user 
+
+take the keywords and save them to database
+add bot to the channel
+whenever posts are made bot checks the jobtitle
+
+fetch the keywords from the database
+categorizes jobtitles based on the keywords
+send job to the respective user 
+
+end
