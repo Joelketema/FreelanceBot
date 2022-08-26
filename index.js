@@ -1,11 +1,10 @@
 import express from "express"
-import {Bot,reutrnBot} from "./Bot.js"
+import Bot from "./Bot.js"
 import mongoose from "mongoose"
 import authController from "./routes/authRoute.js"
 import cors from "cors"
 import bodyParser from "body-parser"
 import User from "./schema/userSchema.js"
-import "dotenv/config"
 
  
 const app = express()
@@ -116,20 +115,6 @@ mongoose.connect(process.env.DB_URL, (err, data) => {
     else console.log(err)
 })
 
-app.get("/", (req, res) => {
-    console.log(reutrnBot())
-    res.send(reutrnBot())
-})
-app.post(`/${process.env.BOT_TOKEN}`, (req, res) => {
-    res.send("hello form bot")
-
-    reutrnBot().handleUpdate(req.body)
-
-    // bot.handleUpdate(req.body);
-});
-
-const Port = process.env.PORT || 3001 
-
-app.listen(Port, () => {
+app.listen(3001, () => {
     console.log("Server is up")
 })

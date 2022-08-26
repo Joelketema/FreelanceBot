@@ -3,14 +3,11 @@ import {Telegraf,Markup} from "telegraf"
 import axios from "axios"
 import User from "./schema/userSchema.js"
 import mongoose from "mongoose"
-export const reutrnBot = () => {
-    const bot = new Telegraf(process.env.BOT_TOKEN)
-    return bot
-}
-export const Bot = () => {
-    
-    const bot = new Telegraf(process.env.BOT_TOKEN)
 
+const Bot = () => {
+
+    const bot = new Telegraf(process.env.BOT_TOKEN)
+    
     const Buttons = Markup
     .keyboard([
     ['®️ Register', '🔥 Select KeyWords','Your Keywords'],
@@ -233,23 +230,8 @@ export const Bot = () => {
 
         })
   
-    // bot.launch() 
-    const Port = process.env.PORT || 3001 
+    bot.launch() 
 
-    // bot.startWebhook(process.env.HEROKU_URL + process.env.BOT_TOKEN);
-    // bot.launch({
-        //     webhook: {
-            //       domain: process.env.BASE_URL + process.env.BOT_TOKEN,
-            //       port: Number(Port),
-            //     }
-        //   })
-        bot.launch()
-        .then(res => {
-        console.log(res)
-        console.log("bot is up")
-    }).catch(e=>console.log(e))
-      
-    
 }
 
-
+export default Bot
