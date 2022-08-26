@@ -115,6 +115,6 @@ mongoose.connect(process.env.DB_URL, (err, data) => {
     else console.log(err)
 })
 
-app.listen(8443, () => {
+app.listen(3001, () => {
     console.log("Server is up")
 }) 
