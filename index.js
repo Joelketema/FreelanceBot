@@ -106,7 +106,7 @@ app.patch("/Clear", (req, res) => {
     })
 })
 
-
+app.use("/",(req,res)=>res.send("Server is up"))
 mongoose.connect(process.env.DB_URL, (err, data) => {
     if (!err) {
         console.log("db connected")
