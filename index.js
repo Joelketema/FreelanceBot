@@ -116,7 +116,7 @@ mongoose.connect(process.env.DB_URL, (err, data) => {
     else console.log(err)
 })
 
-app.post(`/${process.env.BOT_TOKEN}`, (req, res) => {
+app.post(`/telegraf${process.env.BOT_TOKEN}`, (req, res) => {
     res.send("hello form bot")
 
     reutrnBot().handleUpdate(req.body)
