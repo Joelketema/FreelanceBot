@@ -342,7 +342,7 @@ mongoose.connect(process.env.DB_URL, (err, data) => {
     else console.log(err)
 })
 
-app.use(await bot.createWebhook({ domain: process.env.BASE_URL }))
+app.use(await bot.setWebhook({ domain: process.env.BASE_URL }))
 
 app.listen(3001, () => {
     console.log("Server is up")
