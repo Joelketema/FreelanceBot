@@ -229,10 +229,8 @@ const Bot = () => {
         })
 
         })
-        bot
-        .launch({ webhook: { domain: process.env.BASE_URL, port: 8443} })
-        .then(() => console.log("Webhook bot listening on port"));
-    
+  
+    bot.launch() 
 
 }
 
