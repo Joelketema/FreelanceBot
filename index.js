@@ -123,7 +123,8 @@ app.post(`/${process.env.BOT_TOKEN}`, (req, res) => {
     // bot.handleUpdate(req.body);
 });
 
+const Port = process.env.PORT || 3001 
 
-app.listen(3001, () => {
+app.listen(Port, () => {
     console.log("Server is up")
 })
