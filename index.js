@@ -5,12 +5,15 @@ import authController from "./routes/authRoute.js"
 import cors from "cors"
 import bodyParser from "body-parser"
 import User from "./schema/userSchema.js"
+
  
 const app = express()
 app.use(cors())
 app.use(bodyParser.json())
 
 
+
+  
 Bot()
 
 app.post("/returnJobFlag", (req, res) => {
