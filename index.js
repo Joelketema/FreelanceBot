@@ -1,5 +1,5 @@
 import express from "express"
-import Bot from "./Bot.js"
+import {Bot,reutrnBot} from "./Bot.js"
 import mongoose from "mongoose"
 import authController from "./routes/authRoute.js"
 import cors from "cors"
@@ -106,7 +106,7 @@ app.patch("/Clear", (req, res) => {
     })
 })
 
-app.use("/",(req,res)=>res.send("Server is up"))
+
 mongoose.connect(process.env.DB_URL, (err, data) => {
     if (!err) {
         console.log("db connected")
@@ -115,6 +115,14 @@ mongoose.connect(process.env.DB_URL, (err, data) => {
     else console.log(err)
 })
 
-app.listen(9001, () => {
+app.post(`/${process.env.BOT_TOKEN}`, (req, res) => {
+
+    reutrnBot().handleUpdate(req.body)
+
+    // bot.handleUpdate(req.body);
+});
+
+
+app.listen(3001, () => {
     console.log("Server is up")
 })
