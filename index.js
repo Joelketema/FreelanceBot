@@ -342,7 +342,11 @@ mongoose.connect(process.env.DB_URL, (err, data) => {
     else console.log(err)
 })
 
-app.use(await bot.setWebhook({ domain: process.env.BASE_URL }))
+app.post(`/${process.env.BOT_TOKEN}`, (req, res) => {
+
+    bot.handleUpdate(req.body);
+});
+
 
 app.listen(3001, () => {
     console.log("Server is up")
