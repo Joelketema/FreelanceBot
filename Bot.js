@@ -236,14 +236,14 @@ export const Bot = () => {
     // bot.launch() 
     const Port = process.env.PORT || 3001 
 
+    // bot.launch()
     // bot.startWebhook(process.env.HEROKU_URL + process.env.BOT_TOKEN);
-    // bot.launch({
-        //     webhook: {
-            //       domain: process.env.BASE_URL + process.env.BOT_TOKEN,
-            //       port: Number(Port),
-            //     }
-        //   })
-        bot.launch()
+    bot.launch({
+            webhook: {
+                  domain: process.env.BASE_URL + process.env.BOT_TOKEN,
+                  port: Number(Port),
+                }
+          })
         .then(res => {
         console.log(res)
         console.log("bot is up")
