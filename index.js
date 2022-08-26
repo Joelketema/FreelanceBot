@@ -5,6 +5,7 @@ import authController from "./routes/authRoute.js"
 import cors from "cors"
 import bodyParser from "body-parser"
 import User from "./schema/userSchema.js"
+import "dotenv/config"
 
  
 const app = express()
