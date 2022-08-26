@@ -124,6 +124,6 @@ app.post(`/${process.env.BOT_TOKEN}`, (req, res) => {
 });
 
 
-app.listen(3001, () => {
-    console.log("Server is up")
-})
+// app.listen(3001, () => {
+//     console.log("Server is up")
+// })
