@@ -240,7 +240,7 @@ export const Bot = () => {
     // bot.launch()
     bot.launch({
         webhook: {
-          domain: process.env.HEROKU_URL + process.env.BOT_TOKEN,
+          domain: process.env.BASE_URL + process.env.BOT_TOKEN,
           port: Number(Port),
         }
       })
