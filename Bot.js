@@ -5,6 +5,7 @@ import User from "./schema/userSchema.js"
 import mongoose from "mongoose"
 
 const Bot = () => {
+    const Port = process.env.PORT || 3001 
 
     const bot = new Telegraf(process.env.BOT_TOKEN)
     
@@ -230,7 +231,12 @@ const Bot = () => {
 
         })
   
-    bot.launch() 
+        bot.launch({
+            webhook: {
+              domain: process.env.BASE_URL + process.env.BOT_TOKEN,
+              port: Number(Port),
+            }
+          }) 
 
 }
 
