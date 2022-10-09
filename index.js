@@ -106,6 +106,10 @@ app.patch("/Clear", (req, res) => {
     })
 })
 
+app.post(`/${process.env.BOT_TOKEN}`, (req, res) => {
+
+    bot.handleUpdate(req.body);
+});
 
 mongoose.connect(process.env.DB_URL, (err, data) => {
     if (!err) {
