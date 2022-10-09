@@ -8,6 +8,7 @@ const Bot = () => {
     const Port = process.env.PORT || 3001 
 
     const bot = new Telegraf(process.env.BOT_TOKEN)
+   
     
     const Buttons = Markup
     .keyboard([
@@ -237,7 +238,7 @@ const Bot = () => {
               port: Number(Port),
             }
           }) 
-
+          return bot
 }
 
 export default Bot
