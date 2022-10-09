@@ -5,10 +5,8 @@ import User from "./schema/userSchema.js"
 import mongoose from "mongoose"
 
 const Bot = () => {
-    const Port = process.env.PORT || 3001 
 
     const bot = new Telegraf(process.env.BOT_TOKEN)
-   
     
     const Buttons = Markup
     .keyboard([
@@ -232,13 +230,8 @@ const Bot = () => {
 
         })
   
-        bot.launch({
-            webhook: {
-              domain: process.env.BASE_URL +"/"+ process.env.BOT_TOKEN,
-              port: Number(Port),
-            }
-          }) 
-          return bot
+    bot.launch() 
+
 }
 
 export default Bot
