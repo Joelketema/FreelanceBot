@@ -233,7 +233,7 @@ const Bot = () => {
   
         bot.launch({
             webhook: {
-              domain: process.env.BASE_URL + process.env.BOT_TOKEN,
+              domain: process.env.BASE_URL +"/"+ process.env.BOT_TOKEN,
               port: Number(Port),
             }
           }) 
