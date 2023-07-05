@@ -8,16 +8,14 @@ const Bot = () => {
     const bot = new Telegraf(process.env.BOT_TOKEN);
 
     const Buttons = Markup.keyboard([
-        ["®️ Register", "🔥 Select KeyWords", "Your Keywords"],
+        ["®️ Register", "🔥 Add Keywords", "Your Keywords"],
         ["❌ Delete My Profile", "👥 Share", "📞 Feedback"],
-        ["❌ Clear Your Keywords"],
+        ["❌ Clear Your Keywords", "❌ Delete one Keyword"],
     ]).resize();
 
     const JobButtons = Markup.keyboard(["Done"]).resize();
 
     bot.start((ctx) => {
-        console.log(ctx.chat);
-
         return ctx.reply(`Welcome! ${ctx.chat.username}`, Buttons);
     });
 
@@ -36,7 +34,7 @@ const Bot = () => {
             });
     });
 
-    bot.hears("🔥 Select KeyWords", (ctx) => {
+    bot.hears("🔥 Add Keywords", (ctx) => {
         axios
             .patch(`${process.env.BASE_URL}/setJobFlag/true`, {
                 body: ctx.chat.id.toString(),
@@ -85,13 +83,50 @@ const Bot = () => {
             });
     });
 
+    bot.hears("❌ Delete one Keyword", (ctx) => {
+        const words = new Array();
+        axios
+            .post(`${process.env.BASE_URL}/getKeywords`, {
+                body: ctx.chat.id.toString(),
+            })
+            .then((res) => {
+                if (res.status !== 201) {
+                    res.data.keywords?.forEach((d) => {
+                        words.push([Markup.button.callback(d, `${d}`)]);
+                    });
+                    ctx.reply(
+                        "Select a Keyword to Delete",
+                        Markup.inlineKeyboard(words)
+                    );
+                } else ctx.reply("Error, Please Try Again!");
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    });
+
+    bot.on("callback_query", (ctx) => {
+        axios
+            .patch(`${process.env.BASE_URL}/deleteKeyword`, {
+                body: ctx.chat.id.toString(),
+                key: ctx.callbackQuery.data,
+            })
+            .then((res) => {
+                if (res.status === 200) {
+                    ctx.reply("Deleted!", Buttons);
+                } else ctx.reply(res.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    });
+
     bot.hears("/No", (ctx) => {
         axios
             .patch(`${process.env.BASE_URL}/setFlag/false`, {
                 body: ctx.chat.id.toString(),
             })
             .then((response) => {
-                console.log(response);
                 if (response.status === 200) ctx.reply("Cancelled!", Buttons);
                 else ctx.reply("Sorry an Error Occured!");
             });
@@ -116,7 +151,7 @@ const Bot = () => {
                 body: ctx.chat.id.toString(),
             })
             .then((res) => {
-                ctx.reply("Done", Buttons);
+                ctx.reply("Done, You will recieve Jobs Soon!", Buttons);
             })
             .catch((e) => {
                 console.log(e);
@@ -148,19 +183,13 @@ const Bot = () => {
     });
 
     bot.use((ctx) => {
-        console.log("here3");
-        console.log(ctx.chat.id);
         axios
             .post(`${process.env.BASE_URL}/returnJobFlag`, {
                 body: ctx.chat.id.toString(),
             })
             .then((response) => {
-                console.log("here4");
-                console.log(response);
                 if (response.status === 200) {
                     if (response.data?.jobFlag) {
-                        console.log("here1");
-
                         axios
                             .patch(`${process.env.BASE_URL}/setKeyWords`, {
                                 body: ctx.chat.id.toString(),
@@ -178,24 +207,17 @@ const Bot = () => {
                     }
                 } else {
                     if (ctx.channelPost) {
-                        // console.log(ctx.channelPost.forward_from_chat)
                         if (ctx.channelPost.reply_markup)
                             var button =
                                 ctx.channelPost.reply_markup
                                     .inline_keyboard[0][0];
-                        // console.log(uid)
-                        //  console.log(ctx.channelPost)
-                        // console.log(ctx.channelPost.sender_chat.title)
                         const data = ctx.channelPost?.text;
 
                         const jTitle = data.substr(0, 9);
 
-                        console.log(data.substr(11).split("\n")[0]);
                         const title = data.substr(11).split("\n")[0];
-                        console.log(title.toLowerCase());
 
                         User.find().then((response) => {
-                            console.log(response);
                             response.forEach((r) => {
                                 if (jTitle === "Job Title") {
                                     r.keywords?.forEach((key) => {

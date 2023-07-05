@@ -15,8 +15,6 @@ Bot();
 app.post("/returnJobFlag", (req, res) => {
     User.findOne({ username: req.body.body })
         .then((response) => {
-            console.log(response);
-            console.log(req.body);
             if (response !== null) {
                 res.status(200).json(response);
             } else res.status(201).send("error");
@@ -26,7 +24,6 @@ app.post("/returnJobFlag", (req, res) => {
 app.post("/register", authController);
 
 app.post("/deleteProfile", async (req, res) => {
-    console.log(req.body.body);
     const userfound = await User.findOne({ username: req.body.body });
 
     if (userfound) {
@@ -42,6 +39,18 @@ app.post("/deleteProfile", async (req, res) => {
                 });
         } else res.send("Error Please Try Again!");
     } else res.send("Error Please Try Again!");
+});
+
+app.patch("/deleteKeyword", async (req, res) => {
+    User.updateOne(
+        { username: req.body.body },
+        { $pull: { keywords: req.body.key } }
+    ).then((response) => {
+        console.log(response);
+        if (response.modifiedCount > 0 || response.acknowledged) {
+            res.status(200).send("changed");
+        } else res.status(201).send("Error Please Try Again!");
+    });
 });
 
 app.patch("/setFlag/:id", (req, res) => {
@@ -73,9 +82,8 @@ app.patch("/setJobFlag/:id", (req, res) => {
 app.patch("/setKeyWords", (req, res) => {
     User.updateOne(
         { username: req.body.body },
-        { $push: { keywords: req.body.key } }
+        { $addToSet: { keywords: req.body.key } }
     ).then((response) => {
-        console.log(response);
         if (response.modifiedCount > 0 || response.acknowledged)
             res.status(200).send("changed");
         else res.status(201).send("Error Please Try Again!");
@@ -87,7 +95,6 @@ app.post("/getKeywords", (req, res) => {
         .select("keywords")
         .then((response) => {
             if (response !== null) {
-                console.log(response);
                 res.json(response);
             } else res.status(201).send("Error! Please Try Again");
         });
@@ -96,7 +103,6 @@ app.post("/getKeywords", (req, res) => {
 app.patch("/Clear", (req, res) => {
     User.updateOne({ username: req.body.body }, { $set: { keywords: [] } })
         .then((response) => {
-            console.log(response);
             if (response !== null) res.status(200).send("Cleared!");
         })
         .catch((e) => {
@@ -104,10 +110,9 @@ app.patch("/Clear", (req, res) => {
         });
 });
 
-// app.post(`/${process.env.BOT_TOKEN}`, (req, res) => {
-
-//     Bot().handleUpdate(req.body);
-// });
+app.post(`/${process.env.BOT_TOKEN}`, (req, res) => {
+    Bot().handleUpdate(req.body);
+});
 
 mongoose.connect(process.env.DB_URL, (err, data) => {
     if (!err) {
