@@ -2,4 +2,4 @@
 .env
 .txt
 /data
-index.zip
+*.zip
