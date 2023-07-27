@@ -1,8 +1,8 @@
-import "dotenv/config";
-import { Telegraf, Markup } from "telegraf";
-import axios from "axios";
-import User from "./schema/userSchema.js";
-import mongoose from "mongoose";
+require("dotenv/config");
+
+const { Telegraf, Markup } = require("telegraf");
+const axios = require("axios");
+const User = require("./schema/userSchema.js");
 
 const Bot = () => {
     const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -211,6 +211,7 @@ const Bot = () => {
                             var button =
                                 ctx.channelPost.reply_markup
                                     .inline_keyboard[0][0];
+                        console.log(button?.url);
                         const data = ctx.channelPost?.text;
 
                         const jTitle = data.substr(0, 9);
@@ -228,12 +229,19 @@ const Bot = () => {
                                         )
                                             bot.telegram.sendMessage(
                                                 r.username,
-                                                ctx.channelPost.text +
+                                                ctx.channelPost.text.slice(
+                                                    0,
+                                                    -46
+                                                ) +
                                                     "\n" +
                                                     "To " +
-                                                    button?.text +
+                                                    ctx.channelPost.reply_markup
+                                                        .inline_keyboard[0][0]
+                                                        ?.text +
                                                     " " +
-                                                    button?.url
+                                                    ctx.channelPost.reply_markup
+                                                        .inline_keyboard[0][0]
+                                                        ?.url
                                             );
                                     });
                                 } else
@@ -254,4 +262,4 @@ const Bot = () => {
     bot.launch();
 };
 
-export default Bot;
+module.exports = Bot;

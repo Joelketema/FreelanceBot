@@ -1,10 +1,11 @@
-import express from "express";
-import Bot from "./Bot.js";
-import mongoose from "mongoose";
-import authController from "./routes/authRoute.js";
-import cors from "cors";
-import bodyParser from "body-parser";
-import User from "./schema/userSchema.js";
+const express = require("express");
+//change all the import to require
+const Bot = require("./Bot.js");
+const mongoose = require("mongoose");
+const authController = require("./routes/authRoute.js");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const User = require("./schema/userSchema.js");
 
 const app = express();
 app.use(cors());
