@@ -231,7 +231,7 @@ const Bot = () => {
                                                 r.username,
                                                 ctx.channelPost.text.slice(
                                                     0,
-                                                    -46
+                                                    -90
                                                 ) +
                                                     "\n" +
                                                     "To " +
